@@ -180,7 +180,9 @@ Before production use, add:
 
 ## Dependency and CI security
 
-The repository runs tests in GitHub Actions. Future hardening should add dependency review and automated dependency updates.
+The repository runs tests in GitHub Actions with read-only repository-content permission. Dependabot is configured for Python and GitHub Actions dependency updates.
+
+Further hardening should add a deliberate vulnerability-review or blocking policy once the project begins using real data or more dependencies.
 
 Do not add a dependency merely because it is convenient. Prefer a small dependency surface for a personal assistant with access to sensitive data.
 
@@ -208,7 +210,7 @@ The current repository intentionally does not claim production readiness. It cur
 - Full audit log
 - Data deletion workflow
 - Prompt-injection test suite
-- Dependency vulnerability scanning configuration
+- Dedicated dependency vulnerability enforcement beyond automated update checks
 - Rate limiting
 
 These are roadmap items, not hidden assumptions.
