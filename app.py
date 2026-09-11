@@ -100,8 +100,8 @@ def main() -> None:
         with right:
             st.markdown("**Focus the day**")
             st.write("Separate priorities, decisions, overdue items, personal tasks and work that can wait.")
-            st.markdown("**Keep project context**")
-            st.write("Show goal, strategy, metrics, blockers, risks and next actions in one view.")
+            st.markdown("**Preserve decision context**")
+            st.write("Keep project goals, blockers, risks and the reasons behind important decisions in one view.")
 
         st.info("v0.1 is intentionally deterministic. The next version will replace demo rules with an LLM layer after the product flow is validated.")
 
@@ -162,7 +162,7 @@ def main() -> None:
 
     with projects_tab:
         st.subheader("Project Context")
-        st.write("One compact place for the context needed to make the next decision.")
+        st.write("One compact place for the context needed to make the next decision and remember why previous decisions were made.")
         names = [project["name"] for project in projects]
         selected = st.selectbox("Project", names)
         project = next(item for item in projects if item["name"] == selected)
@@ -198,6 +198,14 @@ def main() -> None:
                 st.markdown("**Next actions**")
                 for item in summary["next_actions"]:
                     st.write(f"- {item}")
+
+        st.markdown("### Decision history")
+        if not summary["decisions"]:
+            st.caption("No recorded decisions in the demo project.")
+        for decision in summary["decisions"]:
+            with st.container(border=True):
+                st.markdown(f"**{decision.get('date', '')} - {decision.get('decision', '')}**")
+                st.caption(f"Reason: {decision.get('reason', '')}")
 
     st.divider()
     st.caption("Public demo repository. Synthetic data only. v0.1")
