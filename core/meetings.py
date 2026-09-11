@@ -5,7 +5,7 @@ import re
 
 def _action_owner(line: str) -> str:
     match = re.match(
-        r"^([A-ZА-ЯЁ][A-Za-zА-Яа-яЁё-]+)\s+(?:должен|должна|должны|нужно|should|must|will)\b",
+        r"^([A-ZА-ЯЁ][A-Za-zА-Яа-яЁё-]+)\s+(?:должен|должна|должны|нужно|should|must|will|подготовим|отправим|проверим|подготовит|отправит|проверит|вернемся|вернёмся|вернется|вернётся)\b",
         line.strip(),
         flags=re.IGNORECASE,
     )
@@ -49,6 +49,35 @@ def process_meeting_notes(text: str) -> dict[str, object]:
     our_promises: list[str] = []
     other_side_promises: list[str] = []
 
+    action_markers = [
+        "нужно",
+        "сделать",
+        "подготовить",
+        "подготовим",
+        "подготовит",
+        "отправить",
+        "отправим",
+        "отправит",
+        "проверить",
+        "проверим",
+        "проверит",
+        "созвониться",
+        "написать",
+        "должен",
+        "должна",
+        "должны",
+        "вернемся",
+        "вернёмся",
+        "вернется",
+        "вернётся",
+        "should",
+        "must",
+        "prepare",
+        "send",
+        "review",
+        "will",
+    ]
+
     for line in lines:
         lowered = line.lower()
 
@@ -61,27 +90,7 @@ def process_meeting_notes(text: str) -> dict[str, object]:
             decisions.append(line)
             continue
 
-        if any(
-            marker in lowered
-            for marker in [
-                "нужно",
-                "сделать",
-                "подготовить",
-                "отправить",
-                "проверить",
-                "созвониться",
-                "написать",
-                "должен",
-                "должна",
-                "должны",
-                "should",
-                "must",
-                "prepare",
-                "send",
-                "review",
-                "will",
-            ]
-        ):
+        if any(marker in lowered for marker in action_markers):
             actions.append(line)
             action_items.append(
                 {
