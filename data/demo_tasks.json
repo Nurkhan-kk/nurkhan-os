@@ -4,7 +4,7 @@
     "scope": "Work",
     "project": "Project Atlas",
     "priority": "High",
-    "deadline": "2026-09-11",
+    "deadline": "TODAY",
     "status": "In progress",
     "decision_required": false
   },
@@ -13,7 +13,7 @@
     "scope": "Work",
     "project": "Client Portal",
     "priority": "High",
-    "deadline": "2026-09-12",
+    "deadline": "TOMORROW",
     "status": "To do",
     "decision_required": true
   },
@@ -22,7 +22,7 @@
     "scope": "Work",
     "project": "Project Atlas",
     "priority": "Normal",
-    "deadline": "2026-09-09",
+    "deadline": "OVERDUE_2",
     "status": "Waiting",
     "decision_required": false
   },
@@ -31,7 +31,16 @@
     "scope": "Personal",
     "project": "Personal",
     "priority": "Normal",
-    "deadline": "2026-09-11",
+    "deadline": "TODAY",
+    "status": "To do",
+    "decision_required": false
+  },
+  {
+    "task": "Review pilot feedback summary",
+    "scope": "Work",
+    "project": "Project Atlas",
+    "priority": "Normal",
+    "deadline": "IN_5",
     "status": "To do",
     "decision_required": false
   }
