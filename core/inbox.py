@@ -23,19 +23,26 @@ def _extract_deadline(text: str) -> str:
     lowered = text.lower()
     today = date.today()
 
-    if "сегодня" in lowered:
+    if "сегодня" in lowered or "today" in lowered:
         return today.isoformat()
-    if "завтра" in lowered:
+    if "завтра" in lowered or "tomorrow" in lowered:
         return (today + timedelta(days=1)).isoformat()
 
     weekdays = {
         "понедельник": 0,
+        "monday": 0,
         "вторник": 1,
+        "tuesday": 1,
         "сред": 2,
+        "wednesday": 2,
         "четверг": 3,
+        "thursday": 3,
         "пятниц": 4,
+        "friday": 4,
         "суббот": 5,
+        "saturday": 5,
         "воскрес": 6,
+        "sunday": 6,
     }
     for name, target_weekday in weekdays.items():
         if name in lowered:
@@ -62,11 +69,13 @@ def parse_inbox(text: str) -> dict[str, str]:
     lowered = cleaned.lower()
 
     work_markers = [
-        "клиент", "договор", "проект", "офд", "business", "amian", "встреч", "юрист",
-        "презентац", "коммерчес", "партнер", "отчет", "команда",
+        "client", "клиент", "contract", "договор", "project", "проект", "meeting", "встреч",
+        "legal", "юрист", "presentation", "презентац", "commercial", "коммерчес", "partner",
+        "партнер", "report", "отчет", "team", "команда",
     ]
     personal_markers = [
-        "купить", "дом", "забрать", "врач", "семья", "заехать", "заказать", "личн",
+        "buy", "купить", "home", "дом", "pick up", "забрать", "doctor", "врач", "family",
+        "семья", "заехать", "order", "заказать", "personal", "личн",
     ]
 
     work_score = sum(marker in lowered for marker in work_markers)
@@ -75,28 +84,27 @@ def parse_inbox(text: str) -> dict[str, str]:
 
     project = "General"
     project_map = {
-        "офд": "OFD",
-        "business go": "Business Go",
-        "amian": "Amian",
-        "greenmag": "GreenMag",
-        "мври": "МВРИ",
+        "project atlas": "Project Atlas",
+        "atlas": "Project Atlas",
+        "client portal": "Client Portal",
+        "portal": "Client Portal",
     }
     for marker, name in project_map.items():
         if marker in lowered:
             project = name
             break
 
-    priority = "High" if any(word in lowered for word in ["срочно", "важно", "критично"]) else "Normal"
+    priority = "High" if any(word in lowered for word in ["срочно", "важно", "критично", "urgent", "critical"]) else "Normal"
     deadline = _extract_deadline(cleaned)
 
     category = "Task"
-    if any(word in lowered for word in ["позвонить", "созвон", "набрать"]):
+    if any(word in lowered for word in ["позвонить", "созвон", "набрать", "call"]):
         category = "Call"
-    elif any(word in lowered for word in ["купить", "заказать"]):
+    elif any(word in lowered for word in ["купить", "заказать", "buy", "order"]):
         category = "Purchase"
-    elif any(word in lowered for word in ["встретиться", "встреча", "созвониться"]):
+    elif any(word in lowered for word in ["встретиться", "встреча", "созвониться", "meeting"]):
         category = "Meeting"
-    elif any(word in lowered for word in ["проверить", "сверить"]):
+    elif any(word in lowered for word in ["проверить", "сверить", "check", "review"]):
         category = "Check"
 
     draft = TaskDraft(
