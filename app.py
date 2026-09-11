@@ -108,7 +108,7 @@ def main() -> None:
     with inbox_tab:
         st.subheader("Inbox")
         st.write("Write a task naturally. The prototype turns it into a structured task draft.")
-        sample = "Позвонить юристам по договору OFD в пятницу"
+        sample = "Позвонить юристу по договору Project Atlas в пятницу"
         text = st.text_area("New input", value=sample, height=120, key="inbox_input")
         if st.button("Structure task", type="primary", key="structure_task"):
             result = parse_inbox(text)
