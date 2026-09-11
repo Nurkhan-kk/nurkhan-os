@@ -65,16 +65,18 @@ def test_morning_brief_separates_decisions_overdue_and_personal():
     assert [item["task"] for item in brief["personal"]] == ["Personal"]
 
 
-def test_meeting_parser_extracts_main_sections():
+def test_meeting_parser_extracts_main_sections_and_action_metadata():
     result = process_meeting_notes(
         "Решили оставить пилот узким.\n"
-        "Нужно подготовить два варианта цены.\n"
+        "Юрист должен проверить договор до пятницы.\n"
         "Вопрос: кто войдет в первую волну?"
     )
 
     assert len(result["decisions"]) == 1
     assert len(result["actions"]) == 1
     assert len(result["open_questions"]) == 1
+    assert result["action_items"][0]["owner"] == "Юрист"
+    assert result["action_items"][0]["deadline"] == "пятницы"
 
 
 def test_project_summary_returns_expected_fields():
@@ -83,6 +85,13 @@ def test_project_summary_returns_expected_fields():
         "goal": "Validate demand",
         "strategy": "Pilot first",
         "metrics": ["Conversion"],
+        "decisions": [
+            {
+                "date": "2026-09-10",
+                "decision": "Keep the pilot narrow",
+                "reason": "Cleaner signal",
+            }
+        ],
         "risks": ["Slow sales"],
         "blockers": [],
         "next_actions": ["Interview clients"],
@@ -93,3 +102,4 @@ def test_project_summary_returns_expected_fields():
     assert result["name"] == "Project Atlas"
     assert result["goal"] == "Validate demand"
     assert result["next_actions"] == ["Interview clients"]
+    assert result["decisions"][0]["reason"] == "Cleaner signal"
