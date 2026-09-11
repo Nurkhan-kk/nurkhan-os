@@ -96,7 +96,7 @@ def main() -> None:
             st.markdown("**Capture and structure**")
             st.write("Convert a free-form task into scope, project, priority, deadline, status and next action.")
             st.markdown("**Process meetings**")
-            st.write("Extract explicit decisions, action items and open questions from notes.")
+            st.write("Extract decisions, action items, owners, deadlines and open questions from rough notes.")
         with right:
             st.markdown("**Focus the day**")
             st.write("Separate priorities, decisions, overdue items, personal tasks and work that can wait.")
@@ -119,26 +119,30 @@ def main() -> None:
 
     with meetings_tab:
         st.subheader("Meeting Processor")
-        st.write("Paste rough meeting notes. The prototype separates what was decided, what needs to happen and what remains open.")
+        st.write("Paste rough meeting notes. The prototype separates decisions, action items and open questions, then adds basic owner and deadline metadata.")
         sample_path = BASE_DIR / "examples/meeting_notes.txt"
         sample_notes = sample_path.read_text(encoding="utf-8")
         notes = st.text_area("Meeting notes", value=sample_notes, height=240, key="meeting_notes")
         if st.button("Process meeting", type="primary", key="process_meeting"):
             result = process_meeting_notes(notes)
 
-            col1, col2, col3 = st.columns(3)
-            with col1:
+            left, right = st.columns(2)
+            with left:
                 st.markdown("### Decisions")
                 for item in result["decisions"]:
                     st.write(f"- {item}")
-            with col2:
-                st.markdown("### Action items")
-                for item in result["actions"]:
-                    st.write(f"- {item}")
-            with col3:
                 st.markdown("### Open questions")
                 for item in result["open_questions"]:
                     st.write(f"- {item}")
+            with right:
+                st.markdown("### Action items")
+                if not result["action_items"]:
+                    for item in result["actions"]:
+                        st.write(f"- {item}")
+                for item in result["action_items"]:
+                    with st.container(border=True):
+                        st.markdown(f"**{item['action']}**")
+                        st.caption(f"Owner: {item['owner']} | Deadline: {item['deadline']}")
 
     with brief_tab:
         st.subheader("Morning Brief")
