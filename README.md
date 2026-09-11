@@ -103,6 +103,7 @@ nurkhan-os/
     DEMO_SCRIPT.md
     PRODUCT_SPEC.md
     SECURITY_AND_PRIVACY.md
+    SECURITY_REVIEW.md
   tests/
     test_core.py
   .github/
@@ -123,7 +124,7 @@ Secrets also stay out of Git. A future API key should live in environment variab
 
 Important external actions are intentionally separated into draft and execute states. The current demo does not send real messages or create real commitments.
 
-Read the threat model and roadmap in [`docs/SECURITY_AND_PRIVACY.md`](docs/SECURITY_AND_PRIVACY.md) and the reporting policy in [`SECURITY.md`](SECURITY.md).
+Read the threat model and roadmap in [`docs/SECURITY_AND_PRIVACY.md`](docs/SECURITY_AND_PRIVACY.md), the completed repository review in [`docs/SECURITY_REVIEW.md`](docs/SECURITY_REVIEW.md), and the reporting policy in [`SECURITY.md`](SECURITY.md).
 
 ## Comparable projects
 
