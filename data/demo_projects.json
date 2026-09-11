@@ -4,6 +4,18 @@
     "goal": "Launch a lightweight B2B service pilot and validate repeatable demand.",
     "strategy": "Start with a narrow customer segment, test pricing, then scale only after repeatable conversion.",
     "metrics": ["Pilot customers", "Conversion rate", "Monthly gross margin"],
+    "decisions": [
+      {
+        "date": "2026-09-08",
+        "decision": "Keep the pilot limited to one customer segment.",
+        "reason": "A narrower scope should make pricing and conversion signals easier to interpret."
+      },
+      {
+        "date": "2026-09-10",
+        "decision": "Test two pricing options before expanding scope.",
+        "reason": "Pricing uncertainty is currently a larger risk than feature depth."
+      }
+    ],
     "risks": ["Long sales cycle", "Unclear customer willingness to pay"],
     "blockers": ["Legal review of pilot agreement"],
     "next_actions": ["Finalize pricing options", "Complete legal review", "Schedule three customer interviews"]
@@ -13,6 +25,13 @@
     "goal": "Reduce manual client support through a self-service portal.",
     "strategy": "Ship a small pilot with the highest-frequency client requests first.",
     "metrics": ["Weekly active users", "Requests resolved without support"],
+    "decisions": [
+      {
+        "date": "2026-09-09",
+        "decision": "Pilot only the three most common request types.",
+        "reason": "This keeps the first release small enough to validate adoption quickly."
+      }
+    ],
     "risks": ["Low adoption", "Scope creep"],
     "blockers": [],
     "next_actions": ["Choose launch scenario", "Prepare prototype", "Select pilot clients"]
