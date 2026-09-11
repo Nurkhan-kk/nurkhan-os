@@ -1,6 +1,18 @@
 .venv/
 __pycache__/
 *.pyc
-.env
 .DS_Store
+
+# Local secrets
+.env
+.env.*
+!.env.example
 .streamlit/secrets.toml
+secrets.toml
+
+# Future local state must not be committed from a personal instance
+*.db
+*.sqlite
+*.sqlite3
+local_data/
+private_data/
