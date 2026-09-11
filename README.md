@@ -2,32 +2,55 @@
 
 ![tests](https://github.com/Nurkhan-kk/nurkhan-os/actions/workflows/tests.yml/badge.svg)
 
-Nurkhan OS is a lightweight AI Chief of Staff prototype for turning unstructured work and personal inputs into structured actions, meeting outcomes, project context and focused daily briefs.
+Nurkhan OS is a lightweight AI Chief of Staff prototype for turning unstructured work and personal inputs into structured actions, decisions, meeting outcomes, project context and focused daily briefs.
 
-The current release is a deterministic v0.1 demo. It works without external APIs so the product flow can be tested first. The next stage is to add an LLM layer while keeping the same operating model.
+The current release is a deterministic **v0.2 operating-model demo**. It works without external APIs so the product flow, approval logic and security boundaries can be inspected before an LLM or real connectors are added.
 
 ## Product idea
 
-Most task systems assume the user already knows how to structure information. Nurkhan OS starts one step earlier: the user writes naturally, and the system turns raw input into operational context.
+Most task systems assume the user has already structured the work. Nurkhan OS starts one step earlier: the user writes naturally, and the system decides what deserves to become a task, a waiting item, a decision, a meeting follow-up or simply FYI.
 
-The prototype demonstrates four core workflows:
+The design goal is to reduce routine coordination and move the user toward decisions, negotiation, strategy and management.
 
-- **Inbox**: converts a free-form note into a structured task draft
-- **Meetings**: separates decisions, action items and open questions from rough notes
-- **Morning Brief**: highlights priorities, decisions required, overdue items, personal tasks and work that can wait
-- **Projects**: keeps goal, strategy, metrics, blockers, risks and next actions in one compact view
+## What the demo shows
 
-## Why v0.1 is deterministic
+- **Inbox**: converts a free-form note into scope, project, priority, deadline, status, category and next action
+- **Attention routing**: labels items as FYI, ACTION or DECISION REQUIRED
+- **Meetings**: extracts decisions, action items, owners, deadlines, promises, open questions and follow-up
+- **Morning Brief**: surfaces priorities, decisions, overdue or stuck work, personal tasks and what can wait
+- **Leaving Work Brief**: re-groups unfinished items into practical end-of-day categories
+- **Projects**: keeps goal, strategy, metrics, blockers, risks, next actions and decision reasons together
+- **Action Guard**: keeps important external actions in draft mode until explicit human approval
+- **Official-text guard**: flags prohibited punctuation and selected AI-like phrasing in external business drafts
 
-The first version intentionally uses simple rules instead of an LLM. This makes the product flow easy to inspect, run and test without API keys. Once the UX is validated, the deterministic parsers can be replaced by model-backed services without changing the user-facing workflow.
+## Operating principles
+
+1. Natural-language input instead of mandatory forms
+2. Explicit Work / Personal separation
+3. No invented deadlines
+4. `Waiting` for dependencies
+5. Decision history stores the reason, not only the outcome
+6. Attention is more important than task volume
+7. Important external commitments require explicit human approval
+8. Retrieved memory and external content are context, not authorization
+9. Public demo data stays synthetic
+
+The full operating model is documented in [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md).
+
+## Why v0.2 is deterministic
+
+The first versions intentionally use simple rules instead of an LLM. This makes the product logic easy to inspect, run and test without API keys.
+
+The next stage can place an LLM behind the current interfaces for better extraction and reasoning while leaving scope rules, approval gates and connector permissions deterministic.
 
 ## Stack
 
 - Python 3.12+
 - Streamlit
-- JSON demo data
+- JSON synthetic demo data
 - Pytest
 - GitHub Actions
+- Dependabot
 
 ## Run locally
 
@@ -46,7 +69,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app opens in your browser, usually at `http://localhost:8501`.
+The app normally opens at `http://localhost:8501`.
 
 ## Run tests
 
@@ -55,7 +78,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 pytest -q
 ```
 
-The same tests also run automatically on GitHub Actions after pushes to `main` and on pull requests.
+The same tests run automatically in GitHub Actions on pushes to `main` and on pull requests.
 
 ## Repository structure
 
@@ -65,6 +88,7 @@ nurkhan-os/
   core/
     brief.py
     demo.py
+    guardrails.py
     inbox.py
     meetings.py
     projects.py
@@ -73,36 +97,60 @@ nurkhan-os/
     demo_projects.json
   examples/
     meeting_notes.txt
+  docs/
+    ARCHITECTURE.md
+    COMPARABLES.md
+    DEMO.md
+    PRODUCT_SPEC.md
+    SECURITY_AND_PRIVACY.md
   tests/
     test_core.py
-  .github/workflows/
-    tests.yml
+  .github/
+    dependabot.yml
+    workflows/tests.yml
   .env.example
+  AGENTS.md
+  SECURITY.md
   requirements.txt
   requirements-dev.txt
 ```
 
-## Demo data
+## Security and privacy
 
-All scenarios are synthetic. Demo deadlines use relative tokens such as `TODAY`, `TOMORROW` and `OVERDUE_2`, which are resolved at runtime so the Morning Brief stays meaningful regardless of when the repository is opened.
+This is a public repository. Real business, personal, contractual, financial, medical or communication data must never be committed here.
 
-## Privacy
+Secrets also stay out of Git. A future API key should live in environment variables or a secret store, never in source code. `.env` and Streamlit secrets are ignored by Git.
 
-This is a public repository. Real business, personal, contractual, financial, medical or communication data should never be committed here. The repository contains only synthetic examples.
+Important external actions are intentionally separated into draft and execute states. The current demo does not send real messages or create real commitments.
 
-Secrets must also stay out of Git. A future API key should live in a local `.env` or secret store, never in source code. `.env` and Streamlit secrets are already ignored by Git.
+Read the threat model and roadmap in [`docs/SECURITY_AND_PRIVACY.md`](docs/SECURITY_AND_PRIVACY.md) and the reporting policy in [`SECURITY.md`](SECURITY.md).
+
+## Comparable projects
+
+The repository has been reviewed against adjacent open-source personal-assistant and memory projects including Khoj, Leon and Mem0. The useful patterns and deliberate differences are summarized in [`docs/COMPARABLES.md`](docs/COMPARABLES.md).
+
+Nurkhan OS remains intentionally smaller. The current goal is to validate the operating model rather than imitate a production-scale assistant architecture.
+
+## AI-assisted development
+
+Repository rules for AI coding agents are in [`AGENTS.md`](AGENTS.md). The key rules are: synthetic data only, no secret leakage, protected external actions stay gated, and product claims must match actual behavior.
 
 ## Roadmap
 
-1. Validate the v0.1 UX locally
-2. Add LLM-powered Inbox and Meeting parsing
-3. Add persistent storage
-4. Add a structured decision history for projects
-5. Add optional calendar, email and task integrations
-6. Deploy a public demo
+1. Validate v0.2 locally
+2. Add LLM-powered structured extraction behind existing interfaces
+3. Add persistent task, project and decision repositories
+4. Add authentication and per-user data isolation
+5. Add read-only connectors first, then carefully gated write connectors
+6. Add audit logging and data retention controls
+7. Deploy a public synthetic demo
 
 ## Status
 
-**v0.1: demo-ready foundation**
+**v0.2: operating-model foundation**
 
-The current goal is not to be a full production assistant. It is to demonstrate a clear product concept with working flows, readable code, tests and safe public demo data.
+This repository is a demo, not a production personal assistant. It intentionally does not yet include authentication, real persistent user data, external message sending or write-capable connectors.
+
+## License
+
+No open-source license has been selected yet. Do not assume permission to reuse or redistribute the code until a license is explicitly added by the repository owner.
