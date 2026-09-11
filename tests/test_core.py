@@ -30,7 +30,7 @@ def test_demo_deadlines_are_resolved_relative_to_today():
     assert hydrated[2]["deadline"] == "2026-09-09"
 
 
-def test_morning_brief_separates_decisions_overdue_and_personal():
+def test_morning_brief_separates_decisions_waiting_and_personal():
     tasks = [
         {
             "task": "Priority",
@@ -49,6 +49,14 @@ def test_morning_brief_separates_decisions_overdue_and_personal():
             "decision_required": True,
         },
         {
+            "task": "Waiting",
+            "scope": "Work",
+            "priority": "Normal",
+            "deadline": "",
+            "status": "Waiting",
+            "decision_required": False,
+        },
+        {
             "task": "Personal",
             "scope": "Personal",
             "priority": "Normal",
@@ -62,6 +70,7 @@ def test_morning_brief_separates_decisions_overdue_and_personal():
 
     assert [item["task"] for item in brief["work_priorities"]] == ["Priority"]
     assert [item["task"] for item in brief["decisions"]] == ["Decision"]
+    assert [item["task"] for item in brief["overdue"]] == ["Waiting"]
     assert [item["task"] for item in brief["personal"]] == ["Personal"]
 
 
