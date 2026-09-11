@@ -1,0 +1,38 @@
+[
+  {
+    "task": "Prepare pricing options for Project Atlas",
+    "scope": "Work",
+    "project": "Project Atlas",
+    "priority": "High",
+    "deadline": "2026-09-11",
+    "status": "In progress",
+    "decision_required": false
+  },
+  {
+    "task": "Choose launch scenario for Client Portal",
+    "scope": "Work",
+    "project": "Client Portal",
+    "priority": "High",
+    "deadline": "2026-09-12",
+    "status": "To do",
+    "decision_required": true
+  },
+  {
+    "task": "Follow up on legal review",
+    "scope": "Work",
+    "project": "Project Atlas",
+    "priority": "Normal",
+    "deadline": "2026-09-09",
+    "status": "Waiting",
+    "decision_required": false
+  },
+  {
+    "task": "Buy printer paper",
+    "scope": "Personal",
+    "project": "Personal",
+    "priority": "Normal",
+    "deadline": "2026-09-11",
+    "status": "To do",
+    "decision_required": false
+  }
+]
