@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Project Atlas",
+    "goal": "Launch a lightweight B2B service pilot and validate repeatable demand.",
+    "strategy": "Start with a narrow customer segment, test pricing, then scale only after repeatable conversion.",
+    "metrics": ["Pilot customers", "Conversion rate", "Monthly gross margin"],
+    "risks": ["Long sales cycle", "Unclear customer willingness to pay"],
+    "blockers": ["Legal review of pilot agreement"],
+    "next_actions": ["Finalize pricing options", "Complete legal review", "Schedule three customer interviews"]
+  },
+  {
+    "name": "Client Portal",
+    "goal": "Reduce manual client support through a self-service portal.",
+    "strategy": "Ship a small pilot with the highest-frequency client requests first.",
+    "metrics": ["Weekly active users", "Requests resolved without support"],
+    "risks": ["Low adoption", "Scope creep"],
+    "blockers": [],
+    "next_actions": ["Choose launch scenario", "Prepare prototype", "Select pilot clients"]
+  }
+]
