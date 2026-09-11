@@ -100,7 +100,7 @@ nurkhan-os/
   docs/
     ARCHITECTURE.md
     COMPARABLES.md
-    DEMO.md
+    DEMO_SCRIPT.md
     PRODUCT_SPEC.md
     SECURITY_AND_PRIVACY.md
   tests/
@@ -130,6 +130,10 @@ Read the threat model and roadmap in [`docs/SECURITY_AND_PRIVACY.md`](docs/SECUR
 The repository has been reviewed against adjacent open-source personal-assistant and memory projects including Khoj, Leon and Mem0. The useful patterns and deliberate differences are summarized in [`docs/COMPARABLES.md`](docs/COMPARABLES.md).
 
 Nurkhan OS remains intentionally smaller. The current goal is to validate the operating model rather than imitate a production-scale assistant architecture.
+
+## Demo walkthrough
+
+A short presentation script is available in [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md).
 
 ## AI-assisted development
 
