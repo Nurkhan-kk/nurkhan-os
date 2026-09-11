@@ -6,6 +6,7 @@ from pathlib import Path
 import streamlit as st
 
 from core.brief import build_morning_brief
+from core.demo import hydrate_demo_tasks
 from core.inbox import parse_inbox
 from core.meetings import process_meeting_notes
 from core.projects import summarize_project
@@ -60,7 +61,7 @@ def render_task_draft(result: dict) -> None:
 def main() -> None:
     st.set_page_config(page_title="Nurkhan OS", page_icon="N", layout="wide")
 
-    tasks = load_json("data/demo_tasks.json")
+    tasks = hydrate_demo_tasks(load_json("data/demo_tasks.json"))
     projects = load_json("data/demo_projects.json")
     brief = build_morning_brief(tasks)
 
@@ -141,7 +142,7 @@ def main() -> None:
 
     with brief_tab:
         st.subheader("Morning Brief")
-        st.write("A focused view of what deserves attention today. Demo data is synthetic.")
+        st.write("A focused view of what deserves attention today. Demo data is synthetic and uses relative dates so the scenario stays fresh.")
 
         sections = [
             ("Main work priorities", "work_priorities"),
