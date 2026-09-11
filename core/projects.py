@@ -7,6 +7,7 @@ def summarize_project(project: dict) -> dict[str, object]:
         "goal": project.get("goal", ""),
         "strategy": project.get("strategy", ""),
         "metrics": project.get("metrics", []),
+        "decisions": project.get("decisions", []),
         "risks": project.get("risks", []),
         "blockers": project.get("blockers", []),
         "next_actions": project.get("next_actions", []),
