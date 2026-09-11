@@ -3,14 +3,20 @@ from __future__ import annotations
 from datetime import date
 
 
+def _sort_key(task: dict) -> tuple[int, str]:
+    priority_rank = 0 if task.get("priority") == "High" else 1
+    deadline = task.get("deadline") or "9999-12-31"
+    return priority_rank, deadline
+
+
 def build_morning_brief(tasks: list[dict]) -> dict[str, list[dict]]:
     today = date.today().isoformat()
 
-    work_priorities = []
-    decisions = []
-    overdue = []
-    personal = []
-    can_wait = []
+    work_priorities: list[dict] = []
+    decisions: list[dict] = []
+    overdue_or_stuck: list[dict] = []
+    personal: list[dict] = []
+    can_wait: list[dict] = []
 
     for task in tasks:
         status = task.get("status", "")
@@ -20,14 +26,14 @@ def build_morning_brief(tasks: list[dict]) -> dict[str, list[dict]]:
         deadline = task.get("deadline", "")
         scope = task.get("scope", "")
         priority = task.get("priority", "Normal")
-        needs_decision = task.get("decision_required", False)
-
-        if deadline and deadline < today:
-            overdue.append(task)
-            continue
+        needs_decision = bool(task.get("decision_required", False))
 
         if needs_decision:
             decisions.append(task)
+            continue
+
+        if (deadline and deadline < today) or status == "Waiting":
+            overdue_or_stuck.append(task)
             continue
 
         if scope == "Personal":
@@ -43,9 +49,9 @@ def build_morning_brief(tasks: list[dict]) -> dict[str, list[dict]]:
             can_wait.append(task)
 
     return {
-        "work_priorities": work_priorities[:5],
-        "decisions": decisions[:5],
-        "overdue": overdue[:5],
-        "personal": personal[:5],
-        "can_wait": can_wait[:5],
+        "work_priorities": sorted(work_priorities, key=_sort_key)[:5],
+        "decisions": sorted(decisions, key=_sort_key)[:5],
+        "overdue": sorted(overdue_or_stuck, key=_sort_key)[:5],
+        "personal": sorted(personal, key=_sort_key)[:5],
+        "can_wait": sorted(can_wait, key=_sort_key)[:5],
     }
